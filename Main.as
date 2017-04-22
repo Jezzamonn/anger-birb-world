@@ -39,8 +39,9 @@
 			var birb:Birb = new Birb();
 			birb.x = 0;
 			birb.y = HEIGHT;
-			birb.dx = 1;
-			birb.dy = -5;
+			birb.dx = Rndm.float(1, 10)
+			birb.dy = Rndm.float(-10, -5);
+			birb.dRot = Rndm.float(-30, 30);
 			birb.scaleX = 0.1;
 			birb.scaleY = 0.1;
 			birbs.push(birb);
