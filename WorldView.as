@@ -16,6 +16,7 @@
 
 		public function WorldView():void {
 			world = new World();
+			world.rotation = -3;
 			addChild(world);
 
 			birb = new Birb();

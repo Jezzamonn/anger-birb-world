@@ -10,8 +10,14 @@
 
 		public static const DIST_MILES:int = 7419;
 		public static const DIST_KM:int = 11940;
-		public static const DIST_DEG:int = 155;
-		
+		public static const DIST_DEG:int = 150;
+		public static const DEG_TO_KM:Number = DIST_KM / DIST_DEG;
+
+		public static const US_START_ANGLE:Number = -45;
+		public static const US_END_ANGLE:Number = 0;
+		public static const AUS_START_ANGLE:Number = 150;
+		public static const AUS_END_ANGLE:Number = 165;
+
 		public static const WIDTH:int = 600;
 		public static const HEIGHT:int = 400;
 
@@ -97,14 +103,27 @@
 		}
 
 		public function land():void {
-			landView = new LandView();
+			var angle:Number = normaliseAngle(worldView.world.rotation);
+			var angleDiff:Number = Math.abs(normaliseAngle(angle - DIST_DEG));
+			var distDiff:Number = angleDiff * DEG_TO_KM;
+
+			var onGround = false;
+			if (US_START_ANGLE < angle && angle < US_END_ANGLE) {
+				onGround = true;
+			}
+			if (AUS_START_ANGLE < angle && angle < AUS_END_ANGLE) {
+				onGround = true;
+			}
+
+			landView = new LandView(onGround);
+			if (worldView.dr < 0) {
+				landView.birb.dx *= -1;
+				landView.birb.x *= -1;
+			}
 
 			scoreView = new ScoreView();
-			var angle:Number = worldView.world.rotation;
-			var dist:Number = DIST_KM * angle / DIST_DEG;
-			var difference:Number = Math.abs(dist - DIST_KM);
 
-			scoreView.textField.text = "You missed by " + difference.toFixed(2) + " km.\n\n" + 
+			scoreView.textField.text = "You missed by " + distDiff.toFixed(2) + " km.\n\n" + 
 			"Click to try again";
 
 			removeChild(worldView);
@@ -114,6 +133,17 @@
 			addChild(scoreView);
 
 			drawSky();
+		}
+
+		public function normaliseAngle(angle:Number):Number {
+			angle %= 360;
+			if (angle <= -180) {
+				angle += 360;
+			}
+			if (angle > 180) {
+				angle -= 360;
+			}
+			return angle;
 		}
 
 		public function restart():void {

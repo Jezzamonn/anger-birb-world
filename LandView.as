@@ -12,8 +12,8 @@
 
 		public var birb:Birb;
 
-		public function LandView():void {
-			if (Rndm.boolean()) {
+		public function LandView(onGround:Boolean = true):void {
+			if (onGround) {
 				ground = new Ground();
 			}
 			else {
