@@ -12,9 +12,13 @@ package  {
 		public var startX:Number;
 		public var startY:Number;
 
+		public var birb:Birb;
+
 		public function LaunchView():void {
 			launchZone = new LaunchZone();
 			addChild(launchZone);
+
+			birb = launchZone.birb;
 
 			startX = launchZone.birb.x;
 			startY = launchZone.birb.y;
@@ -23,8 +27,16 @@ package  {
 		public function onMouseMove(evt:MouseEvent):void {
 			var point:Point = new Point(evt.stageX, evt.stageY);
 			point = globalToLocal(point);
-			launchZone.birb.x = Util.lerp(point.x, startX, 0.2);
-			launchZone.birb.y = Util.lerp(point.y, startY, 0.2);
+			birb.x = Util.lerp(point.x, startX, 0.2);
+			birb.y = Util.lerp(point.y, startY, 0.2);
+		}
+
+		public function get xDiff():Number {
+			return (startX - birb.x) / Main.WIDTH;
+		}
+
+		public function get yDiff():Number {
+			return (startY - birb.y) / Main.HEIGHT;
 		}
 	}
 

@@ -7,7 +7,7 @@
 	public class WorldView extends Sprite {
 
 		public static const RADIUS:int = 125;
-		public var gravity:Number = 0.01;
+		public var gravity:Number = 0.02;
 
 		public var world:MovieClip;
 		public var birb:Birb;

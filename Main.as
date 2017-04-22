@@ -42,6 +42,7 @@
 
 			stage.addEventListener(Event.ENTER_FRAME, everyFrame);
 			stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+			stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 		}
 
 		public function onMouseMove(evt:MouseEvent):void {
@@ -50,8 +51,39 @@
 			}
 		}
 
+		public function onMouseUp(evt:MouseEvent):void {
+			if (launchView) {
+				launch();
+			}
+		}
+
+		public function launch():void {
+			worldView = new WorldView();
+			worldView.x = WIDTH / 2;
+			worldView.y = HEIGHT / 2;
+
+			worldView.dr = -4 * launchView.xDiff;
+			worldView.birb.dy = 4 * launchView.yDiff;
+			worldView.birb.rotation = Rndm.float(-30, 30);
+			addChild(worldView);
+
+			removeChild(launchView);
+			launchView = null;
+
+			drawSky();
+		}
+
+		public function land():void {
+
+		}
+
 		public function drawSky():void {
-			sky.graphics.beginFill(SKY_COLOR);
+			if (worldView) {
+				sky.graphics.beginFill(SPACE_COLOR);
+			}
+			else {
+				sky.graphics.beginFill(SKY_COLOR);
+			}
 			sky.graphics.drawRect(-WIDTH, -HEIGHT, 2 * WIDTH, 2 * HEIGHT);
 			sky.graphics.endFill();
 		}
