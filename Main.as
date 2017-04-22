@@ -18,20 +18,13 @@
 		public var worldView:WorldView;
 		public var launchView:LaunchView;
 		public var scoreView:ScoreView;
+		public var landView:LandView;
 
 		public var sky:Shape;
 		public static const SKY_COLOR:int = 0x4970F9;
 		public static const SPACE_COLOR:int = 0x040F19;
 
 		public function Main() {
-			//worldView = new WorldView();
-			//worldView.x = WIDTH / 2;
-			//worldView.y = HEIGHT / 2;
-
-			//worldView.dr = 1;
-			//worldView.birb.dy = -1;
-			//worldView.birb.rotation = Rndm.float(-30, 30);
-
 			launchView = new LaunchView();
 
 			sky = new Shape();
@@ -41,7 +34,6 @@
 
 			addChild(sky);
 			addChild(launchView);
-			//addChild(worldView);
 
 			stage.addEventListener(Event.ENTER_FRAME, everyFrame);
 			stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
@@ -82,6 +74,9 @@
 					land();
 				}
 			}
+			if (landView) {
+				landView.update();
+			}
 		}
 
 		// -- State changing functions --
@@ -91,18 +86,20 @@
 
 			worldView.dr = -4 * launchView.xDiff;
 			worldView.birb.dy = 4 * launchView.yDiff;
-			worldView.birb.rotation = Rndm.float(-30, 30);
+			worldView.birb.dRot = Rndm.float(-30, 30);
 
 			removeChild(launchView);
 			launchView = null;
+
 			addChild(worldView);
 
 			drawSky();
 		}
 
 		public function land():void {
-			scoreView = new ScoreView();
+			landView = new LandView();
 
+			scoreView = new ScoreView();
 			var angle:Number = worldView.world.rotation;
 			var dist:Number = DIST_KM * angle / DIST_DEG;
 			var difference:Number = Math.abs(dist - DIST_KM);
@@ -112,6 +109,8 @@
 
 			removeChild(worldView);
 			worldView = null;
+
+			addChild(landView);
 			addChild(scoreView);
 
 			drawSky();
@@ -122,6 +121,9 @@
 
 			removeChild(scoreView);
 			scoreView = null;
+			removeChild(landView);
+			landView = null;
+
 			addChild(launchView);
 		}
 

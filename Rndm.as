@@ -6,6 +6,10 @@ package  {
 			return (max - min) * Math.random() + min
 		}
 
+		public static function boolean(chance:Number = 0.5):Boolean {
+			return Math.random() < chance;
+		}
+
 	}
 
 }
