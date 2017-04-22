@@ -44,7 +44,7 @@
 			//addChild(worldView);
 
 			stage.addEventListener(Event.ENTER_FRAME, everyFrame);
-			stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseUp);
+			stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
 			stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 		}
 
@@ -60,7 +60,7 @@
 				launch();
 			}
 			if (scoreView) {
-				//restart();
+				restart();
 			}
 		}
 
@@ -77,9 +77,7 @@
 
 		public function everyFrame(evt:Event):void {
 			if (worldView) {
-				while (!worldView.shouldLand) {
-					worldView.update();
-				}
+				worldView.update();
 				if (worldView.shouldLand) {
 					land();
 				}
@@ -103,9 +101,6 @@
 		}
 
 		public function land():void {
-			if (scoreView) {
-				removeChild(scoreView);
-			}
 			scoreView = new ScoreView();
 
 			var angle:Number = worldView.world.rotation;
@@ -118,10 +113,6 @@
 			removeChild(worldView);
 			worldView = null;
 			addChild(scoreView);
-
-			// Debug
-			launchView = new LaunchView();
-			addChild(launchView);
 
 			drawSky();
 		}
