@@ -19,16 +19,23 @@
 			addChild(world);
 
 			birb = new Birb();
-			birb.y = -RADIUS;
+			birb.y = -(RADIUS + 5);
 			birb.scaleX = -0.05;
 			birb.scaleY = 0.05;
 			addChild(birb);
+
+			this.x = Main.WIDTH / 2;
+			this.y = Main.HEIGHT / 2;
 		}
 
 		public function update():void {
 			world.rotation += dr;
 			birb.move();
 			birb.dy += gravity;
+		}
+
+		public function get shouldLand():Boolean {
+			return -birb.y < RADIUS;
 		}
 	}
 

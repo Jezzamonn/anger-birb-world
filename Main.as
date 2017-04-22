@@ -7,12 +7,17 @@
 	
 	[SWF(width=600, height=400)]
 	public class Main extends MovieClip {
+
+		public static const DIST_MILES:int = 7419;
+		public static const DIST_KM:int = 11940;
+		public static const DIST_DEG:int = 155;
 		
 		public static const WIDTH:int = 600;
 		public static const HEIGHT:int = 400;
 
 		public var worldView:WorldView;
 		public var launchView:LaunchView;
+		public var scoreView:ScoreView;
 
 		public var sky:Shape;
 		public static const SKY_COLOR:int = 0x4970F9;
@@ -28,8 +33,6 @@
 			//worldView.birb.rotation = Rndm.float(-30, 30);
 
 			launchView = new LaunchView();
-			launchView.x = WIDTH / 2;
-			launchView.y = HEIGHT / 2;
 
 			sky = new Shape();
 			sky.x = WIDTH / 2;
@@ -41,7 +44,7 @@
 			//addChild(worldView);
 
 			stage.addEventListener(Event.ENTER_FRAME, everyFrame);
-			stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
+			stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseUp);
 			stage.addEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 		}
 
@@ -53,28 +56,12 @@
 
 		public function onMouseUp(evt:MouseEvent):void {
 			if (launchView) {
+				launchView.onMouseMove(evt);
 				launch();
 			}
-		}
-
-		public function launch():void {
-			worldView = new WorldView();
-			worldView.x = WIDTH / 2;
-			worldView.y = HEIGHT / 2;
-
-			worldView.dr = -4 * launchView.xDiff;
-			worldView.birb.dy = 4 * launchView.yDiff;
-			worldView.birb.rotation = Rndm.float(-30, 30);
-			addChild(worldView);
-
-			removeChild(launchView);
-			launchView = null;
-
-			drawSky();
-		}
-
-		public function land():void {
-
+			if (scoreView) {
+				//restart();
+			}
 		}
 
 		public function drawSky():void {
@@ -90,8 +77,61 @@
 
 		public function everyFrame(evt:Event):void {
 			if (worldView) {
-				worldView.update();
+				while (!worldView.shouldLand) {
+					worldView.update();
+				}
+				if (worldView.shouldLand) {
+					land();
+				}
 			}
+		}
+
+		// -- State changing functions --
+
+		public function launch():void {
+			worldView = new WorldView();
+
+			worldView.dr = -4 * launchView.xDiff;
+			worldView.birb.dy = 4 * launchView.yDiff;
+			worldView.birb.rotation = Rndm.float(-30, 30);
+
+			removeChild(launchView);
+			launchView = null;
+			addChild(worldView);
+
+			drawSky();
+		}
+
+		public function land():void {
+			if (scoreView) {
+				removeChild(scoreView);
+			}
+			scoreView = new ScoreView();
+
+			var angle:Number = worldView.world.rotation;
+			var dist:Number = DIST_KM * angle / DIST_DEG;
+			var difference:Number = Math.abs(dist - DIST_KM);
+
+			scoreView.textField.text = "You missed by " + difference.toFixed(2) + " km.\n\n" + 
+			"Click to try again";
+
+			removeChild(worldView);
+			worldView = null;
+			addChild(scoreView);
+
+			// Debug
+			launchView = new LaunchView();
+			addChild(launchView);
+
+			drawSky();
+		}
+
+		public function restart():void {
+			launchView = new LaunchView();
+
+			removeChild(scoreView);
+			scoreView = null;
+			addChild(launchView);
 		}
 
 	}

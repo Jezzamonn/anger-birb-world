@@ -22,6 +22,9 @@ package  {
 
 			startX = launchZone.birb.x;
 			startY = launchZone.birb.y;
+
+			this.x = Main.WIDTH / 2;
+			this.y = Main.HEIGHT / 2;
 		}
 
 		public function onMouseMove(evt:MouseEvent):void {
