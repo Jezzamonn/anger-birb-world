@@ -54,7 +54,7 @@
 		}
 
 		public function onMouseUp(evt:MouseEvent):void {
-			if (launchView) {
+			if (launchView && launchView.grapped) {
 				launchView.onMouseMove(evt.stageX, evt.stageY);
 				launch();
 			}

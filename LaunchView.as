@@ -16,6 +16,7 @@
 
 		public var birb:Birb;
 
+		public var grapped:Boolean = false;
 		public var launched:Boolean = false;
 		public var count:int = 0;
 		public var done:Boolean = false;
@@ -28,6 +29,7 @@
 			addChild(launchZone);
 
 			birb = launchZone.birb;
+			birb.addEventListener(MouseEvent.MOUSE_DOWN, startGrap);
 
 			startX = launchZone.birb.x;
 			startY = launchZone.birb.y;
@@ -36,13 +38,17 @@
 			this.y = Main.HEIGHT / 2;
 		}
 
+		public function startGrap(evt:MouseEvent):void {
+			grapped = true;
+			birb.removeEventListener(MouseEvent.MOUSE_DOWN, startGrap);
+		}
+
 		public function onMouseMove(mouseX:Number, mouseY:Number):void {
-			if (!launched) {
+			if (!launched && grapped) {
 				var point:Point = new Point(mouseX, mouseY);
 				point = globalToLocal(point);
 				birb.x = Util.lerp(point.x, startX, 0.2);
 				birb.y = Util.lerp(point.y, startY, 0.2);
-
 			}
 		}
 
@@ -66,8 +72,8 @@
 		}
 
 		public function drawSlings():void {
-			var dx:Number = birb.x - (launchZone.farSling.x + launchZone.closeSling.x) / 2;
-			var dy:Number = birb.y - (launchZone.farSling.y + launchZone.closeSling.y) / 2;
+			var dx:Number = birb.x - startX;
+			var dy:Number = birb.y - startY;
 			var dr:Number = Math.sqrt(dx * dx + dy * dy);
 			var bRad:Number = birb.width / 2;
 
