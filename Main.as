@@ -134,8 +134,8 @@
 
 			scoreView = new ScoreView();
 
-			scoreView.textField.text = "You missed by " + distDiff.toFixed(2) + " km.\n\n" + 
-			"Click to try again";
+			scoreView.text = "You missed by " + distDiff.toFixed(2) + " km.\n\n" + 
+			"Click to try again!";
 
 			removeChild(worldView);
 			worldView = null;

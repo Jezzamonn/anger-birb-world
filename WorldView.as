@@ -26,7 +26,7 @@
 			addChild(birb);
 
 			this.x = Main.WIDTH / 2;
-			this.y = Main.HEIGHT / 2;
+			this.y = 0.55 * Main.HEIGHT;
 		}
 
 		public function update():void {
