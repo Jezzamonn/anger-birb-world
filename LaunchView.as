@@ -1,4 +1,4 @@
-package  {
+﻿package  {
 	
 	import flash.display.MovieClip;
 	import flash.display.Sprite;
@@ -6,6 +6,8 @@ package  {
 	import flash.events.MouseEvent;
 	
 	public class LaunchView extends Sprite {
+
+		public static const SLING_COLOR:int = 0x991616;
 
 		public var launchZone:MovieClip;
 
@@ -32,6 +34,21 @@ package  {
 			point = globalToLocal(point);
 			birb.x = Util.lerp(point.x, startX, 0.2);
 			birb.y = Util.lerp(point.y, startY, 0.2);
+
+			var dx:Number = birb.x - (launchZone.farSling.x + launchZone.closeSling.x) / 2;
+			var dy:Number = birb.y - (launchZone.farSling.y + launchZone.closeSling.y) / 2;
+			var dr:Number = Math.sqrt(dx * dx + dy * dy);
+			var bRad:Number = birb.width / 2;
+
+			drawSling(launchZone.farSling, birb.x + bRad * dx / dr, birb.y + bRad * dy / dr);
+			drawSling(launchZone.closeSling, birb.x + bRad * dx / dr, birb.y + bRad * dy / dr);
+		}
+
+		public function drawSling(container:MovieClip, x:Number, y:Number):void {
+			container.graphics.clear();
+			container.graphics.lineStyle(15, SLING_COLOR);
+			// starting at 0, 0 by default
+			container.graphics.lineTo(x - container.x, y - container.y);
 		}
 
 		public function get xDiff():Number {
