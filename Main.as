@@ -32,6 +32,7 @@
 
 		public function Main() {
 			launchView = new LaunchView();
+			launchView.onMouseMove(mouseX, mouseY);
 
 			sky = new Shape();
 			sky.x = WIDTH / 2;
@@ -48,13 +49,13 @@
 
 		public function onMouseMove(evt:MouseEvent):void {
 			if (launchView) {
-				launchView.onMouseMove(evt);
+				launchView.onMouseMove(evt.stageX, evt.stageY);
 			}
 		}
 
 		public function onMouseUp(evt:MouseEvent):void {
 			if (launchView) {
-				launchView.onMouseMove(evt);
+				launchView.onMouseMove(evt.stageX, evt.stageY);
 				launch();
 			}
 			if (scoreView) {
@@ -83,15 +84,25 @@
 			if (landView) {
 				landView.update();
 			}
+			if (launchView) {
+				launchView.update();
+				if (launchView.done) {
+					zoomOut();
+				}
+			}
 		}
 
 		// -- State changing functions --
 
 		public function launch():void {
+			launchView.launch();
+		}
+
+		public function zoomOut():void {
 			worldView = new WorldView();
 
-			worldView.dr = -4 * launchView.xDiff;
-			worldView.birb.dy = 4 * launchView.yDiff;
+			worldView.dr = -4 * launchView.launchDx;
+			worldView.birb.dy = 4 * launchView.launchDy;
 			worldView.birb.dRot = Rndm.float(-30, 30);
 
 			removeChild(launchView);
@@ -148,6 +159,7 @@
 
 		public function restart():void {
 			launchView = new LaunchView();
+			launchView.onMouseMove(mouseX, mouseY);
 
 			removeChild(scoreView);
 			scoreView = null;

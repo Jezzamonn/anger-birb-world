@@ -16,6 +16,13 @@
 
 		public var birb:Birb;
 
+		public var launched:Boolean = false;
+		public var count:int = 0;
+		public var done:Boolean = false;
+
+		public var launchDx:Number = 0;
+		public var launchDy:Number = 0;
+
 		public function LaunchView():void {
 			launchZone = new LaunchZone();
 			addChild(launchZone);
@@ -29,12 +36,36 @@
 			this.y = Main.HEIGHT / 2;
 		}
 
-		public function onMouseMove(evt:MouseEvent):void {
-			var point:Point = new Point(evt.stageX, evt.stageY);
-			point = globalToLocal(point);
-			birb.x = Util.lerp(point.x, startX, 0.2);
-			birb.y = Util.lerp(point.y, startY, 0.2);
+		public function onMouseMove(mouseX:Number, mouseY:Number):void {
+			if (!launched) {
+				var point:Point = new Point(mouseX, mouseY);
+				point = globalToLocal(point);
+				birb.x = Util.lerp(point.x, startX, 0.2);
+				birb.y = Util.lerp(point.y, startY, 0.2);
 
+			}
+		}
+
+		public function launch():void {
+			launched = true;
+			birb.dx = 200 * xDiff;
+			birb.dy = 200 * yDiff;
+			launchDx = xDiff;
+			launchDy = yDiff;
+		}
+
+		public function update():void {
+			birb.move();
+			drawSlings();
+			if (launched) {
+				count ++;
+				if (count > 5) {
+					done = true;
+				}
+			}
+		}
+
+		public function drawSlings():void {
 			var dx:Number = birb.x - (launchZone.farSling.x + launchZone.closeSling.x) / 2;
 			var dy:Number = birb.y - (launchZone.farSling.y + launchZone.closeSling.y) / 2;
 			var dr:Number = Math.sqrt(dx * dx + dy * dy);
