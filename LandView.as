@@ -12,6 +12,8 @@
 
 		public var birb:Birb;
 
+		public var sounded:Boolean = false;
+
 		public function LandView(onGround:Boolean = true):void {
 			if (onGround) {
 				ground = new Ground();
@@ -37,6 +39,16 @@
 
 		public function update():void {
 			birb.move();
+
+			if (!sounded && birb.y > Main.HEIGHT + 0.7 * birb.height) {
+				sounded = true;
+				if (ground is Ground) {
+					SoundManager.crash();
+				}
+				else {
+					SoundManager.splash();
+				}
+			}
 		}
 
 	}

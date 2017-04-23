@@ -111,6 +111,8 @@
 			addChild(worldView);
 
 			drawSky();
+
+			SoundManager.woosh();
 		}
 
 		public function land():void {
@@ -144,6 +146,8 @@
 			addChild(scoreView);
 
 			drawSky();
+
+			SoundManager.fall();
 		}
 
 		public function normaliseAngle(angle:Number):Number {

@@ -41,6 +41,7 @@
 		public function startGrap(evt:MouseEvent):void {
 			grapped = true;
 			birb.removeEventListener(MouseEvent.MOUSE_DOWN, startGrap);
+			SoundManager.pull();
 		}
 
 		public function onMouseMove(mouseX:Number, mouseY:Number):void {
@@ -58,6 +59,7 @@
 			birb.dy = 200 * yDiff;
 			launchDx = xDiff;
 			launchDy = yDiff;
+			SoundManager.launch();
 		}
 
 		public function update():void {
