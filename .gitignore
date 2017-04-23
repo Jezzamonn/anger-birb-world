@@ -1,3 +1,4 @@
 *.swf
 .DS_STORE
 export/
+RECOVER_*
