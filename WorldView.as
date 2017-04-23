@@ -25,12 +25,16 @@
 			birb.scaleY = 0.05;
 			addChild(birb);
 
+			update();
+
 			this.x = Main.WIDTH / 2;
 			this.y = 0.55 * Main.HEIGHT;
 		}
 
 		public function update():void {
 			world.rotation += dr;
+			world.usScope.us.rotation = -world.rotation - world.usScope.rotation;
+			world.ausScope.aus.rotation = -world.rotation - world.ausScope.rotation;
 			birb.move();
 			birb.dy += gravity;
 		}
