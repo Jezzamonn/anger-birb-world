@@ -12,6 +12,7 @@
 		public static const DIST_KM:int = 11940;
 		public static const DIST_DEG:int = 150;
 		public static const DEG_TO_KM:Number = DIST_KM / DIST_DEG;
+		public static const KM_TO_MILES:Number = 1 / 1.609344;
 
 		public static const US_START_ANGLE:Number = -45;
 		public static const US_END_ANGLE:Number = 0;
@@ -165,7 +166,8 @@
 
 			scoreView = new ScoreView();
 
-			scoreView.text = "You missed by " + distDiff.toFixed(2) + " km.\n\n" + 
+			scoreView.text = "You missed by " + distDiff.toFixed(2) + " km.\n" + 
+			"(" + (distDiff * KM_TO_MILES).toFixed(2) + " miles)\n\n" + 
 			"Click to try again!";
 
 			removeAll();
