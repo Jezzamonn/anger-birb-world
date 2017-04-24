@@ -21,6 +21,7 @@
 		public static const WIDTH:int = 600;
 		public static const HEIGHT:int = 400;
 
+		public var titleView:TitleView;
 		public var worldView:WorldView;
 		public var launchView:LaunchView;
 		public var scoreView:ScoreView;
@@ -31,8 +32,10 @@
 		public static const SPACE_COLOR:int = 0x040F19;
 
 		public function Main() {
-			launchView = new LaunchView();
-			launchView.onMouseMove(mouseX, mouseY);
+			//launchView = new LaunchView();
+			//launchView.onMouseMove(mouseX, mouseY);
+
+			titleView = new TitleView();
 
 			sky = new Shape();
 			sky.x = WIDTH / 2;
@@ -40,7 +43,7 @@
 			drawSky();
 
 			addChild(sky);
-			addChild(launchView);
+			addChild(titleView);
 
 			stage.addEventListener(Event.ENTER_FRAME, everyFrame);
 			stage.addEventListener(MouseEvent.MOUSE_MOVE, onMouseMove);
@@ -59,6 +62,9 @@
 				launch();
 			}
 			if (scoreView) {
+				restart();
+			}
+			if (titleView) {
 				restart();
 			}
 		}
@@ -90,6 +96,17 @@
 					zoomOut();
 				}
 			}
+			if (titleView) {
+				titleView.update();
+			}
+		}
+
+		public function removeAll():void {
+			for each (var thing:* in [titleView, worldView, launchView, scoreView, landView]) {
+				if (thing != null && contains(thing)) {
+					removeChild(thing);
+				}
+			}
 		}
 
 		// -- State changing functions --
@@ -105,7 +122,7 @@
 			worldView.birb.dy = 4 * launchView.launchDy;
 			worldView.birb.dRot = Rndm.float(-30, 30);
 
-			removeChild(launchView);
+			removeAll();
 			launchView = null;
 
 			addChild(worldView);
@@ -139,7 +156,7 @@
 			scoreView.text = "You missed by " + distDiff.toFixed(2) + " km.\n\n" + 
 			"Click to try again!";
 
-			removeChild(worldView);
+			removeAll();
 			worldView = null;
 
 			addChild(landView);
@@ -165,10 +182,10 @@
 			launchView = new LaunchView();
 			launchView.onMouseMove(mouseX, mouseY);
 
-			removeChild(scoreView);
+			removeAll();
 			scoreView = null;
-			removeChild(landView);
 			landView = null;
+			titleView = null;
 
 			addChild(launchView);
 		}
