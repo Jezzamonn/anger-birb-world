@@ -7,7 +7,7 @@
 
 	public class InstructionsView extends Sprite {
 
-		public static const WORDS:String = "Anger Birb was happily living in his home in San Fransisco when some bad pigs took [his/her] eggs! This time the pigs have fled overseas, all the way to Sydney. Anger Birb swore that [he/she] would seek revenge on the bad pigs.\n\nClick to drag and fire Anger Birb and hit those pigs for victory!";
+		public static const WORDS:String = "Anger Birb was happily living in his home in San Francisco when some bad pigs took [his/her] eggs! This time the pigs have fled overseas, all the way to Sydney. Anger Birb swore that [he/she] would seek revenge on the bad pigs.\n\nClick to drag and fire Anger Birb and hit those pigs for victory!";
 		public var textBox:TextBox;
 
 		public var ground:MovieClip;
