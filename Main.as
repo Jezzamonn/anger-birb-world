@@ -22,6 +22,7 @@
 		public static const HEIGHT:int = 400;
 
 		public var titleView:TitleView;
+		public var instructionsView:InstructionsView;
 		public var worldView:WorldView;
 		public var launchView:LaunchView;
 		public var scoreView:ScoreView;
@@ -61,11 +62,14 @@
 				launchView.onMouseMove(evt.stageX, evt.stageY);
 				launch();
 			}
-			if (scoreView) {
+			else if (scoreView) {
 				restart();
 			}
-			if (titleView) {
+			else if (instructionsView) {
 				restart();
+			}
+			else if (titleView) {
+				goToInstructions();
 			}
 		}
 
@@ -102,7 +106,7 @@
 		}
 
 		public function removeAll():void {
-			for each (var thing:* in [titleView, worldView, launchView, scoreView, landView]) {
+			for each (var thing:* in [titleView, instructionsView, worldView, launchView, scoreView, landView]) {
 				if (thing != null && contains(thing)) {
 					removeChild(thing);
 				}
@@ -110,6 +114,14 @@
 		}
 
 		// -- State changing functions --
+
+		public function goToInstructions():void {
+			removeAll();
+			titleView = null;
+
+			instructionsView = new InstructionsView();
+			addChild(instructionsView);
+		}
 
 		public function launch():void {
 			launchView.launch();
@@ -186,6 +198,7 @@
 			scoreView = null;
 			landView = null;
 			titleView = null;
+			instructionsView = null;
 
 			addChild(launchView);
 		}
