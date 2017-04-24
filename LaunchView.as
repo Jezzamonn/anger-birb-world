@@ -40,6 +40,7 @@
 
 		public function startGrap(evt:MouseEvent):void {
 			grapped = true;
+			launchZone.sydneySign.visible = false;
 			birb.removeEventListener(MouseEvent.MOUSE_DOWN, startGrap);
 			SoundManager.pull();
 		}

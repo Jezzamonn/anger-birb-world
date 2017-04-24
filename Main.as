@@ -33,6 +33,8 @@
 		public static const SKY_COLOR:int = 0x4970F9;
 		public static const SPACE_COLOR:int = 0x040F19;
 
+		public var launchedOnce:Boolean = false;
+
 		public function Main() {
 			//launchView = new LaunchView();
 			//launchView.onMouseMove(mouseX, mouseY);
@@ -126,6 +128,7 @@
 
 		public function launch():void {
 			launchView.launch();
+			launchedOnce = true;
 		}
 
 		public function zoomOut():void {
@@ -195,6 +198,10 @@
 		public function restart():void {
 			launchView = new LaunchView();
 			launchView.onMouseMove(mouseX, mouseY);
+
+			if (launchedOnce) {
+				launchView.launchZone.sydneySign.visible = false;
+			}
 
 			removeAll();
 			scoreView = null;
