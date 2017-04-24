@@ -7,7 +7,7 @@
 
 	public class InstructionsView extends Sprite {
 
-		public static const WORDS:String = "Anger Birb was happily living in his home in San Francisco when some bad pigs took [his/her] eggs! This time the pigs have fled overseas, all the way to Sydney. Anger Birb swore that [he/she] would seek revenge on the bad pigs.\n\nClick to drag and fire Anger Birb and hit those pigs for victory!";
+		public static const WORDS:String = "Anger Birb was happily living in [his/her] home in San Francisco when some bad pigs took [his/her] eggs! This time the pigs have fled overseas, all the way to Sydney. Anger Birb swore that [he/she] would seek revenge on the bad pigs.\n\nClick to drag and fire Anger Birb and hit those pigs for victory!";
 		public var textBox:TextBox;
 
 		public var ground:MovieClip;
@@ -21,6 +21,7 @@
 			textBox.y = 0.05 * Main.HEIGHT;
 			var gender:Boolean = Rndm.boolean();
 			textBox.text = WORDS
+				.replace("[his/her]", gender ? "his" : "her")
 				.replace("[his/her]", gender ? "his" : "her")
 				.replace("[he/she]", gender ? "he" : "she");
 
